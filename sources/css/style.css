@@ -1,0 +1,20 @@
+
+.image {
+    width: 200px;
+    height: 200px;
+}
+
+.avatar {
+    width: 200px;
+    height: 200px;
+}
+
+@media (min-width: 1025px) {
+    .h-custom {
+    height: 100vh !important;
+    }
+    }
+
+body {
+    background-color: white; /* Đặt màu nền trắng cho toàn bộ trang */
+}
