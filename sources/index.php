@@ -19,7 +19,6 @@ $fetch_users = mysqli_fetch_assoc($users_query);
 <?php include 'include/header.php'; ?>
 	<body>
 	<?php include 'include/navbar.php'; ?>
-		
 	</body>
 </html>
 

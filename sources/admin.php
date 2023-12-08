@@ -1,146 +1,200 @@
 <?php
-	session_start();
-	include "include/connect.php";
-	//check admin:admin123
-    $admin_ses = $_SESSION['sadmin'];
-	if(!isset($admin_ses)){
-		header('location:login.php');
-	 };
+session_start();
+include "include/connect.php";
+//check admin:admin123
+$admin_ses = $_SESSION['sadmin'];
+if (!isset($admin_ses)) {
+  header('location:login.php');
+}
+;
+$status = 1;
 ?>
-<style>
-	.toggler {
-  width: 72px;
-  /* margin: 40px auto; */
-  margin-left: 90px;
-  margin-top: 40px;
-}
-
-.toggler input {
-  display: none;
-}
-
-.toggler label {
-  display: flex;
-  justify-content: space-between; /* Canh chỉnh đoạn văn bản Lock và Unlock */
-  position: relative;
-  width: 72px;
-  height: 36px;
-  border: 1px solid #d6d6d6;
-  border-radius: 36px;
-  background: #e4e8e8;
-  cursor: pointer;
-}
-
-.toggler label::after {
-  display: block;
-  border-radius: 100%;
-  background-color: #d7062a;
-  content: '';
-  animation-name: toggler-size;
-  animation-duration: 0.15s;
-  animation-timing-function: ease-out;
-  animation-direction: forwards;
-  animation-iteration-count: 1;
-  animation-play-state: running;
-}
-
-.toggler label::after, .toggler label .toggler-on, .toggler label .toggler-off {
-  position: absolute;
-  top: 50%;
-  left: 25%;
-  width: 26px;
-  height: 26px;
-  transform: translateY(-50%) translateX(-50%);
-  transition: left 0.15s ease-in-out, background-color 0.2s ease-out, width 0.15s ease-in-out, height 0.15s ease-in-out, opacity 0.15s ease-in-out;
-}
-
-.toggler input:checked + label::after, .toggler input:checked + label .toggler-on, .toggler input:checked + label .toggler-off {
-  left: 75%;
-}
-
-.toggler input:checked + label::after {
-  background-color: #50ac5d;
-  animation-name: toggler-size2;
-}
-
-.toggler .toggler-on, .toggler .toggler-off {
-  opacity: 1;
-  z-index: 2;
-}
-
-.toggler input:checked + label .toggler-off, .toggler input:not(:checked) + label .toggler-on {
-  width: 0;
-  height: 0;
-  opacity: 0;
-}
-
-.toggler .path {
-  fill: none;
-  stroke: #fefefe;
-  stroke-width: 7px;
-  stroke-linecap: round;
-  stroke-miterlimit: 10;
-}
-
-@keyframes toggler-size {
-  0%, 100% {
-    width: 26px;
-    height: 26px;
-  }
-
-  50% {
-    width: 20px;
-    height: 20px;
-  }
-}
-
-@keyframes toggler-size2 {
-  0%, 100% {
-    width: 26px;
-    height: 26px;
-  }
-}
-
-  50% {
-    width: 20px;
-    height: 20px;
-  }
-
-  .toggle-text {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  margin-left: 40px; /* Điều chỉnh khoảng cách giữa đoạn văn bản và toggle */
-}
-
-.toggle-text-left {
-  left: 40px;
-}
-
-.toggle-text-right {
-  right: 80px;
-}
- 
 </style>
-<?php include 'include/header.php'; ?>
-	<body>
-	<?php include 'include/navbar_admin.php'; ?>
-	<h1 class="text-center">Lock Status</h1>
-		<div class="toggler">
-			
-			<input id="toggler-1" name="toggler-1" type="checkbox" value="1">
-			<label for="toggler-1">
-				<span class="toggle-text toggle-text-left">Lock</span>
-				<svg class="toggler-on" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
-					<polyline class="path check" points="100.2,40.2 51.5,88.8 29.8,67.5"></polyline>
-				</svg>
-				
-				<svg class="toggler-off" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
-					<line class="path line" x1="34.4" y1="34.4" x2="95.8" y2="95.8"></line>
-					<line class="path line" x1="95.8" y1="34.4" x2="34.4" y2="95.8"></line>
-				</svg>
-				<span class="toggle-text toggle-text-right">Unlock</span>
-			</label>
-		</div>
-	</body>
+
+<head>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", { packages: ["corechart"] });
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ['Task', 'Hours per Day'],
+        ['Work', 11],
+        ['Eat', 2],
+        ['Commute', 2],
+        ['Watch TV', 2],
+        ['Sleep', 7]
+      ]);
+
+      var options = {
+        title: 'Daily Activities',
+        is3D: true,
+      };
+
+      var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+      chart.draw(data, options);
+    }
+  </script>
+</head>
+
+<body>
+  <link rel="stylesheet" href="css/admin.css" />
+  <div class="container">
+    <nav>
+      <ul>
+        <li><a href="#" class="logo">
+            <img src="./pic/key.png" style="width: 70;height: 70;">
+            <span class="nav-item">LockDoor</span>
+          </a></li>
+        <li><a href="#">
+            <i class="fas fa-menorah"></i>
+            <span class="nav-item">Dashboard</span>
+          </a></li>
+        <li><a href="profile.php">
+            <i class="fas fa-comment"></i>
+            <span class="nav-item">Account</span>
+          </a></li>
+        <li><a href="logs.php">
+            <i class="fas fa-database"></i>
+            <span class="nav-item">log</span>
+          </a></li>
+        <li><a href="manage_account.php">
+            <i class="fas fa-chart-bar"></i>
+            <span class="nav-item">User</span>
+          </a></li>
+        <li><a href="#">
+            <i class="fas fa-cog"></i>
+            <span class="nav-item">Setting</span>
+          </a></li>
+        <li><a href="logout.php" class="logout">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="nav-item">Log out</span>
+          </a></li>
+      </ul>
+    </nav>
+    <section class="main">
+      <div class="main-top">
+        <h1 >Dashboard</h1>
+        <h4 >Welcome back to ManhHung</h4>
+        <i class="fas fa-user-cog"></i>
+      </div>
+      <div class="users">
+        <div class="card" style="display: flex;justify-content: center; align-items: center;">
+          <div class="per">
+            <table>
+              <img src="./pic/user1.png" alt="">
+              <tr>
+                <h4>Total user</h4>
+              </tr>
+              <tr>
+                <h2 style="color: red">50</h2>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="card" style="display: flex;justify-content: center; align-items: center;">
+          <div class="per">
+            <table>
+              <tr>
+                <img src="./pic/alert.png" alt="">
+                <h4>
+                  Total arlets in today
+                </h4>
+              </tr>
+              <h2 style="color: red">
+                10
+              </h2>
+              <tr>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="card" style="display: flex;justify-content: center; align-items: center;">
+          <div class="per">
+            <table>
+              <?php
+              $img_id = $status == "active" ? 1 : 2;
+              ?>
+              <tr>
+                <img src="./pic/<?php echo $img_id; ?>.png" alt="">
+              </tr>
+              <tr style="top: 20;">
+                <h4>
+                Device operation
+                </h4>
+              </tr>
+              <tr>
+                <h2 style="color: red">status</h2>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="per">
+            <table>
+              <div id="piechart_3d" style="width: 100%; height: 100%; display: flex; justify-content: center;"></div>
+            </table>
+          </div>
+        </div>
+      </div>
+      <section class="attendance">
+        <div class="attendance-list">
+          <h1>Attendance List</h1>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Depart</th>
+                <th>Date</th>
+                <th>Join Time</th>
+                <th>Logout Time</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>01</td>
+                <td>Sam David</td>
+                <td>Design</td>
+                <td>03-24-22</td>
+                <td>8:00AM</td>
+                <td>3:00PM</td>
+                <td><button>View</button></td>
+              </tr>
+              <tr class="active">
+                <td>02</td>
+                <td>Balbina Kherr</td>
+                <td>Coding</td>
+                <td>03-24-22</td>
+                <td>9:00AM</td>
+                <td>4:00PM</td>
+                <td><button>View</button></td>
+              </tr>
+              <tr>
+                <td>03</td>
+                <td>Badan John</td>
+                <td>testing</td>
+                <td>03-24-22</td>
+                <td>8:00AM</td>
+                <td>3:00PM</td>
+                <td><button>View</button></td>
+              </tr>
+              <tr>
+                <td>04</td>
+                <td>Sara David</td>
+                <td>Design</td>
+                <td>03-24-22</td>
+                <td>8:00AM</td>
+                <td>3:00PM</td>
+                <td><button>View</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </div>
+</body>
+
 </html>

@@ -1,0 +1,25 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.container {
+    padding: 0%;
+    margin: 0%;
+}
+
+
+.right {
+    display: inline-block; /* Xếp các phần tử cạnh nhau */
+    vertical-align: top; /* Đặt phần tử ở cùng một độ cao */
+    width: 100%;
+}
+
+.left {
+    display: inline-block; /* Xếp các phần tử cạnh nhau */
+    vertical-align: top; /* Đặt phần tử ở cùng một độ cao */
+}
+
+.container{
+    max-width: none;
+}

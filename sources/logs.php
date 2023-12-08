@@ -50,8 +50,6 @@
             </thead>
             <tbody>
                 <?php
-                
-
                 $query_logs = "SELECT * FROM door_activity_log ORDER BY activity_time DESC LIMIT 20";
                 $result = mysqli_query($conn, $query_logs);
 

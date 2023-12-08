@@ -22,6 +22,17 @@ SET time_zone = "+00:00";
 --
 
 -- --------------------------------------------------------
+-- Table structure for table "get_Data"
+CREATE TABLE `cart` (
+  `id_order` int(100) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_item` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `price` double(10,2) NOT NULL,
+  `quantity` int(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `cart`
