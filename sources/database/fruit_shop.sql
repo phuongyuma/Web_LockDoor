@@ -20,18 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `fruit_shop`
 --
-
--- --------------------------------------------------------
--- Table structure for table "get_Data"
-CREATE TABLE `cart` (
-  `id_order` int(100) NOT NULL,
-  `id_user` int(11) NOT NULL,
-  `id_item` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `price` double(10,2) NOT NULL,
-  `quantity` int(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 -- --------------------------------------------------------
 
 --
@@ -98,21 +86,21 @@ CREATE TABLE `users` (
   `email` varchar(40) NOT NULL,
   `phone_number` varchar(20) NOT NULL,
   `role` varchar(10) NOT NULL,
-  `wallet` double(10,2) NOT NULL DEFAULT 0.00,
-  `vip_end` date DEFAULT NULL
+  `Id_card` varchar(20) DEFAULT NULL,
+  `password_key` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id_user`, `username`, `password`, `avatar`, `name`, `email`, `phone_number`, `role`, `wallet`, `vip_end`) VALUES
-(2, 'naruto2', '827ccb0eea8a706c4c34a16891f84e7b', 'default.png', '', '', '', 'user', 0.00, NULL),
-(4, 'admin', '0192023a7bbd73250516f069df18b500', 'default.png', '', '', '', 'admin', 9000.00, NULL),
-(5, 'test', 'cc03e747a6afbbcbf8be7668acfebee5', 'default.png', '', '', '', 'user', 0.00, NULL),
-(7, 'naruto', '827ccb0eea8a706c4c34a16891f84e7b', 'default.png', 'naruto2', 'naruto@naruto', '12345678', 'VIP', 10000.00, '2022-12-17'),
-(8, 'naruto3', '884ecc7ac05cb5d52aa970f523a3b7e6', 'default.png', '', 'hokage@hokage2', '12345678', 'user', 1000.00, NULL),
-(13, 'naruanru', '827ccb0eea8a706c4c34a16891f84e7b', 'default.png', 'naruanru', 'naruanru@33.com', '12345678999', 'user', 0.00, NULL);
+INSERT INTO `users` (`id_user`, `username`, `password`, `avatar`, `name`, `email`, `phone_number`, `role`, `Id_card`, `password_key`) VALUES
+(2, 'naruto2', '827ccb0eea8a706c4c34a16891f84e7b', 'default.png', '', '', '', 'user', NULL, NULL),
+(4, 'admin', '0192023a7bbd73250516f069df18b500', 'default.png', '', '', '', 'admin', NULL, NULL),
+(5, 'test', 'cc03e747a6afbbcbf8be7668acfebee5', 'default.png', '', '', '', 'user', NULL, NULL),
+(7, 'naruto', '827ccb0eea8a706c4c34a16891f84e7b', 'default.png', 'naruto2', 'naruto@naruto', '12345678', 'VIP', NULL, NULL),
+(8, 'naruto3', '884ecc7ac05cb5d52aa970f523a3b7e6', 'default.png', '', 'hokage@hokage2', '12345678', 'user', NULL, NULL),
+(13, 'naruanru', '827ccb0eea8a706c4c34a16891f84e7b', 'default.png', 'naruanru', 'naruanru@33.com', '12345678999', 'user', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -125,8 +113,8 @@ ALTER TABLE `cart`
   ADD PRIMARY KEY (`id_order`),
   ADD KEY `id_user` (`id_user`),
   ADD KEY `id_item` (`id_item`);
-
 --
+
 -- Indexes for table `fruits_table`
 --
 ALTER TABLE `fruits_table`
@@ -176,11 +164,24 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
-CREATE TABLE `door_activity_log` (
+-- CREATE TABLE `door_activity_log` (
+--     `log_id` int(11) AUTO_INCREMENT PRIMARY KEY,
+--     `activity_type` ENUM('Open', 'Close', 'WrongPassword_1', 'WrongPassword_2', 'WrongPassword_3', 'WrongPassword_4'),
+--     `activity_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     `user_id` int(11) NOT NULL,
+--     `username` varchar(50) NOT NULL,
+--     `keypassword` int(20) NOT NULL,
+--     `id_card` varchar(50) NOT NULL,
+--     FOREIGN KEY (user_id) REFERENCES users(id_user)
+-- );
+-- INSERT INTO `door_activity_log` (`activity_type`, `activity_time`, `user_id`, `username`,`keypassword`,`id_card` ) VALUES
+-- ('Open', CURRENT_TIMESTAMP, 2, 'admin',3, 'FF FF FF FF');
+
+CREATE TABLE `door_logs` (
     `log_id` int(11) AUTO_INCREMENT PRIMARY KEY,
-    `activity_type` ENUM('Open', 'Close', 'WrongPassword_1', 'WrongPassword_2', 'WrongPassword_3', 'WrongPassword_4'),
+    `activity_type`varchar(20) NOT NULL,
     `activity_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `user_id` int(11) NOT NULL,
-    `username` varchar(50) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id_user)
+    `id_card` varchar(50) NOT NULL
 );
+INSERT INTO `door_logs` (`activity_type`, `activity_time`,`id_card` ) VALUES
+('Open',CURRENT_TIMESTAMP,'FF FF FF FF');

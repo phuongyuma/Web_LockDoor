@@ -51,8 +51,8 @@ if (isset($_GET['remove_user'])) {
                             echo "<td>" . $row["id_user"] . "</td>";
                             echo "<td>" . $row["username"] . "</td>";
                             echo "<td>" . $row["password"] . "</td>";
-                            echo "<td>" . $row["wallet"] . "</td>";
-                            echo "<td>" . $row["wallet"] . "</td>";
+                            echo "<td>" . $row["Id_card"] . "</td>";
+                            echo "<td>" . $row["password_key"] . "</td>";
                             echo "<td><a href='manage_account.php?remove_user=" . $row["id_user"] . "?> class='delete-btn' onclick='return confirm('remove user?');'>Remove</a></td>";
                             echo "</tr>";
                         }

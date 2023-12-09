@@ -25,21 +25,21 @@ if (!isset($admin_ses)) {
                         <th>Log ID</th>
                         <th>Activity Type</th>
                         <th>Activity Time</th>
-                        <th>User ID</th>
-                        <th>Username</th>
+                        <!-- <th>User ID</th>
+                        <th>Username</th> -->
+                        <th>Card id</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    $query_logs = "SELECT * FROM door_activity_log ORDER BY activity_time DESC LIMIT 20";
+                    $query_logs = "SELECT * FROM door_logs ORDER BY activity_time DESC LIMIT 20";
                     $result = mysqli_query($conn, $query_logs);
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
                             echo "<td>" . $row["log_id"] . "</td>";
                             echo "<td>" . $row["activity_type"] . "</td>";
                             echo "<td>" . $row["activity_time"] . "</td>";
-                            echo "<td>" . $row["user_id"] . "</td>";
-                            echo "<td>" . $row["username"] . "</td>";
+                            echo "<td>" . $row["id_card"] . "</td>";
                             echo "</tr>";
                         }
                     } else {

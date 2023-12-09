@@ -10,6 +10,7 @@ if (!isset($admin_ses)) {
 $status = 1;
 ?>
 
+
 <head>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript">
@@ -49,10 +50,10 @@ $status = 1;
             <i class="fas fa-menorah"></i>
             <span class="nav-item">Dashboard</span>
           </a></li>
-        <li><a href="profile.php">
+        <!-- <li><a href="profile.php">
             <i class="fas fa-comment"></i>
             <span class="nav-item">Account</span>
-          </a></li>
+          </a></li> -->
         <li><a href="logs.php">
             <i class="fas fa-database"></i>
             <span class="nav-item">log</span>
@@ -74,7 +75,7 @@ $status = 1;
     <section class="main">
       <div class="main-top">
         <h1 >Dashboard</h1>
-        <h4 >Welcome back to ManhHung</h4>
+        <h4 >Welcome back to admin</h4>
         <i class="fas fa-user-cog"></i>
       </div>
       <div class="users">
@@ -139,27 +140,27 @@ $status = 1;
       <section class="attendance">
         <div class="attendance-list">
           <h1>Attendance List</h1>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Log ID</th>
-                <th>Activity Type</th>
-                <th>Activity Time</th>
-                <th>User ID</th>
-                <th>User name</th>
-              </tr>
-            </thead>
-            <tbody>
+          <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Log ID</th>
+                        <th>Activity Type</th>
+                        <th>Activity Time</th>
+                        <!-- <th>User ID</th>
+                        <th>Username</th> -->
+                        <th>Card id</th>
+                    </tr>
+                </thead>
+                <tbody>
                     <?php
-                    $query_logs = "SELECT * FROM door_activity_log ORDER BY activity_time DESC LIMIT 20";
+                    $query_logs = "SELECT * FROM door_logs ORDER BY activity_time DESC LIMIT 20";
                     $result = mysqli_query($conn, $query_logs);
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
                             echo "<td>" . $row["log_id"] . "</td>";
                             echo "<td>" . $row["activity_type"] . "</td>";
                             echo "<td>" . $row["activity_time"] . "</td>";
-                            echo "<td>" . $row["user_id"] . "</td>";
-                            echo "<td>" . $row["username"] . "</td>";
+                            echo "<td>" . $row["id_card"] . "</td>";
                             echo "</tr>";
                         }
                     } else {
@@ -169,7 +170,7 @@ $status = 1;
                     $conn->close();
                     ?>
                 </tbody>
-          </table>
+            </table>
         </div>
       </section>
     </section>

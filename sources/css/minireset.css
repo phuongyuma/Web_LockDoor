@@ -8,7 +8,6 @@
     margin: 0%;
 }
 
-
 .right {
     display: inline-block; /* Xếp các phần tử cạnh nhau */
     vertical-align: top; /* Đặt phần tử ở cùng một độ cao */
@@ -23,3 +22,4 @@
 .container{
     max-width: none;
 }
+

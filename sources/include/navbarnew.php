@@ -9,10 +9,10 @@
                     <i class="fas fa-menorah"></i>
                     <span class="nav-item">Dashboard</span>
                 </a></li>
-            <li><a href="profile.php">
+            <!-- <li><a href="profile.php">
                     <i class="fas fa-comment"></i>
                     <span class="nav-item">Account</span>
-                </a></li>
+                </a></li> -->
             <li><a href="logs.php">
                     <i class="fas fa-database"></i>
                     <span class="nav-item">log</span>
