@@ -9,7 +9,6 @@ if (!isset($admin_ses)) {
 ;
 $status = 1;
 ?>
-</style>
 
 <head>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -42,11 +41,11 @@ $status = 1;
   <div class="container">
     <nav>
       <ul>
-        <li><a href="#" class="logo">
+        <li><a href="admin.php" class="logo">
             <img src="./pic/key.png" style="width: 70;height: 70;">
             <span class="nav-item">LockDoor</span>
           </a></li>
-        <li><a href="#">
+        <li><a href="admin.php">
             <i class="fas fa-menorah"></i>
             <span class="nav-item">Dashboard</span>
           </a></li>
@@ -143,53 +142,33 @@ $status = 1;
           <table class="table">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Depart</th>
-                <th>Date</th>
-                <th>Join Time</th>
-                <th>Logout Time</th>
-                <th>Details</th>
+                <th>Log ID</th>
+                <th>Activity Type</th>
+                <th>Activity Time</th>
+                <th>User ID</th>
+                <th>User name</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>01</td>
-                <td>Sam David</td>
-                <td>Design</td>
-                <td>03-24-22</td>
-                <td>8:00AM</td>
-                <td>3:00PM</td>
-                <td><button>View</button></td>
-              </tr>
-              <tr class="active">
-                <td>02</td>
-                <td>Balbina Kherr</td>
-                <td>Coding</td>
-                <td>03-24-22</td>
-                <td>9:00AM</td>
-                <td>4:00PM</td>
-                <td><button>View</button></td>
-              </tr>
-              <tr>
-                <td>03</td>
-                <td>Badan John</td>
-                <td>testing</td>
-                <td>03-24-22</td>
-                <td>8:00AM</td>
-                <td>3:00PM</td>
-                <td><button>View</button></td>
-              </tr>
-              <tr>
-                <td>04</td>
-                <td>Sara David</td>
-                <td>Design</td>
-                <td>03-24-22</td>
-                <td>8:00AM</td>
-                <td>3:00PM</td>
-                <td><button>View</button></td>
-              </tr>
-            </tbody>
+                    <?php
+                    $query_logs = "SELECT * FROM door_activity_log ORDER BY activity_time DESC LIMIT 20";
+                    $result = mysqli_query($conn, $query_logs);
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<td>" . $row["log_id"] . "</td>";
+                            echo "<td>" . $row["activity_type"] . "</td>";
+                            echo "<td>" . $row["activity_time"] . "</td>";
+                            echo "<td>" . $row["user_id"] . "</td>";
+                            echo "<td>" . $row["username"] . "</td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='5'>No activity logs found.</td></tr>";
+                    }
+
+                    $conn->close();
+                    ?>
+                </tbody>
           </table>
         </div>
       </section>

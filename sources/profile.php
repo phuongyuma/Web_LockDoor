@@ -1,14 +1,17 @@
-<?php 
+<?php
 session_start();
-
-$user_ses = $_SESSION['user_ses'];
-
-if(!isset($user_ses)){
-   header('location:login.php');
-};
 include "include/check.php";
 include "include/connect.php";
-$query2 = "SELECT * FROM users where $user_ses = id_user";
+// $user_ses = $_SESSION['user_ses'];
+
+// if(!isset($user_ses)){
+//    header('location:login.php');
+// };
+$admin_ses = $_SESSION['sadmin'];
+if (!isset($admin_ses)) {
+   header('location:login.php');
+}
+$query2 = "SELECT * FROM users where $admin_ses = id_user";
 $result2 = mysqli_query($conn, $query2);
 
 if(isset($_POST['edit'])){
@@ -28,7 +31,7 @@ if(isset($_POST['edit'])){
    if (md5($curr_password) == $fetch_cart['password']) {
       $query4 = "UPDATE users SET name = '$name', email = '$email', phone_number = '$phone' WHERE id_user='$user_ses'";
       $result_up = mysqli_query($conn, $query4);
-      //thay đổi pass nếu ô password được điền 
+      //thay đổi pass nếu ô password được điền
       if ($_POST['new_password']!="") {
          $query5 = "UPDATE users SET password = '" . md5($password) . "' WHERE id_user='$user_ses'";
          $result_up2 = mysqli_query($conn, $query5);
@@ -47,18 +50,18 @@ if(isset($_POST['edit'])){
          }
          header('location:profile.php');
       }else{
-         echo "Update failed";                                                                                                                                                                                     
+         echo "Update failed";
       }
    }else{
       echo "Wrong password";
    }
 }
-
 ?>
+
 <?php include 'include/header.php'; ?>
    <body>
    <?php include 'include/navbar.php'; ?>
-   <?php                    
+   <?php
 
          $fetch_cart = mysqli_fetch_array($result2)
       ?>
