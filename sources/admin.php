@@ -6,8 +6,64 @@ $admin_ses = $_SESSION['sadmin'];
 if (!isset($admin_ses)) {
   header('location:login.php');
 }
+
 ;
 $status = 1;
+
+# count total alerts in 1 week
+$query_logs = "SELECT * FROM door_logs ORDER BY activity_time DESC LIMIT 20";
+$query_logs_2 = "SELECT COUNT(*) AS total_alerts FROM door_logs WHERE activity_type = 'Alerts' AND activity_time >= NOW() - INTERVAL 1 WEEK";
+$result = mysqli_query($conn, $query_logs_2);
+if ($result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    $total_alerts = $row["total_alerts"]; 
+  }
+} else {
+  $total_alerts = 0;
+}
+# count total alerts in 1 days
+$query_logs_3 = "SELECT COUNT(*) AS total_alerts FROM door_logs WHERE activity_type = 'Alerts' AND activity_time >= NOW() - INTERVAL 1 DAY";
+$result = mysqli_query($conn, $query_logs_3);
+if ($result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    $total_alerts_2 = $row["total_alerts"]; 
+  }
+} else {
+  $total_alerts_2 = 0;
+}
+# count total open in 1 week
+$query_logs_4 = "SELECT COUNT(*) AS total_alerts FROM door_logs WHERE activity_type = 'Open' AND activity_time >= NOW() - INTERVAL 1 WEEK";
+$result = mysqli_query($conn, $query_logs_4);
+if ($result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    $total_open = $row["total_alerts"]; 
+  }
+} else {
+  $total_open = 0;
+}
+# count total close in 1 week
+$query_logs_5 = "SELECT COUNT(*) AS total_alerts FROM door_logs WHERE activity_type = 'Close' AND activity_time >= NOW() - INTERVAL 1 WEEK";
+$result = mysqli_query($conn, $query_logs_5);
+if ($result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    $total_close = $row["total_alerts"]; 
+  }
+} else {
+  $total_close = 0;
+}
+# total user 
+$query_logs_6 = "SELECT COUNT(*) AS total_users FROM users";
+$result = mysqli_query($conn, $query_logs_6);
+if ($result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    $total_user = $row["total_users"]; 
+  }
+} else {
+  $total_user = 0;
+}
+
+
+
 ?>
 
 <head>
@@ -17,16 +73,14 @@ $status = 1;
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
       var data = google.visualization.arrayToDataTable([
-        ['Task', 'Hours per Day'],
-        ['Work', 11],
-        ['Eat', 2],
-        ['Commute', 2],
-        ['Watch TV', 2],
-        ['Sleep', 7]
-      ]);
+        ['Task', 'Alert per Week'],
+        ['Alert', <?php echo $total_alerts; ?>],
+        ['Close', <?php echo $total_close; ?>],
+        ['Open', <?php echo $total_open; ?>]
+        ]);
 
       var options = {
-        title: 'Daily Activities',
+        title: 'Alert per Week',
         is3D: true,
       };
 
@@ -34,6 +88,7 @@ $status = 1;
       chart.draw(data, options);
     }
   </script>
+  
 </head>
 
 <body>
@@ -86,7 +141,7 @@ $status = 1;
                 <h4>Total user</h4>
               </tr>
               <tr>
-                <h2 style="color: red">50</h2>
+                <h2 style="color: red"><?php echo $total_user; ?> </h2>
               </tr>
             </table>
           </div>
@@ -97,11 +152,11 @@ $status = 1;
               <tr>
                 <img src="./pic/alert.png" alt="">
                 <h4>
-                  Total arlets in today
+                  Total alerts in today
                 </h4>
               </tr>
               <h2 style="color: red">
-                10
+                <?php echo $total_alerts_2; ?>
               </h2>
               <tr>
               </tr>
@@ -136,6 +191,7 @@ $status = 1;
           </div>
         </div>
       </div>
+      
       <section class="attendance">
         <div class="attendance-list">
           <h1>Attendance List</h1>
@@ -150,9 +206,12 @@ $status = 1;
                         <th>Card id</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody>    
+                          
+
                     <?php
-                    $query_logs = "SELECT * FROM door_logs ORDER BY activity_time DESC LIMIT 20";
+                    $today = date("Y-m-d");
+                    $query_logs = "SELECT * FROM door_logs WHERE DATE(activity_time) = '$today'";
                     $result = mysqli_query($conn, $query_logs);
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
