@@ -12,7 +12,7 @@
 ## Set up
 
 - Install xampp, put this project into folder httpdocs of xampp and browser: http://127.0.0.1/Web_LockDoor/sources/login.php
-- Database: 
+- Database:
     - Go to http://127.0.0.1/phpmyadmin/index.php
     - Login as admin (admin:admin123)
     - Add 1 user account: nbp1:passMySQL
