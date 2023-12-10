@@ -28,19 +28,18 @@ function test_input($conn, $data)
     $email = test_input($conn, $_POST['email']);
     $contact = test_input($conn, $_POST['contact']);
 
-    //regex lấy từ mạng, chưa tìm hiểu kỹ
-    if (!preg_match("/^\\+?[1-9][0-9]{7,14}$/", $contact)) {
-      echo "Phone number is invalid";
-      exit();
-    }
-    if (!preg_match("/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/", $email)) {
-      echo "Email is invalid";
-      exit();
-    }
-
+    // //regex lấy từ mạng, chưa tìm hiểu kỹ
+    // if (!preg_match("/^\\+?[1-9][0-9]{7,14}$/", $contact)) {
+    //   echo "Phone number is invalid";
+    //   exit();
+    // }
+    // if (!preg_match("/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/", $email)) {
+    //   echo "Email is invalid";
+    //   exit();
+    // }
 
     $query = "INSERT into `users` (username, password, name, email, phone_number, role)
-                            VALUES ('$username', '" . md5($password) . "', '$name', '$email', '$contact', 'user')";
+              VALUES ('$username', '" . md5($password) . "', '$name', '$email', '$contact', 'us er')";
     $result = mysqli_query($conn, $query);
     if ($result) {
       // echo "<div class='form'>
@@ -57,7 +56,7 @@ function test_input($conn, $data)
   } else {
   }
   ?>
- <section class="h-100vh h-custom" style="background-color: #8fc4b7;">
+ <section class="h-150vh h-custom" style="background-color: #8fc4b7;">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center">
       <div class="col-lg-8 col-xl-6">
@@ -73,10 +72,6 @@ function test_input($conn, $data)
                   required>
               </div>
               <div class="form-outline mb-4">
-                <label class="form-label" for="form3Example1q">Name</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
-              </div>
-              <div class="form-outline mb-4">
                 <label class="form-label" for="form3Example1q">Email</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
               </div>
@@ -89,11 +84,19 @@ function test_input($conn, $data)
                 <label class="form-label" for="form3Example1q">Contact Info</label>
                 <input type="text" class="form-control" id="contact" name="contact" placeholder = "Phone number" required>
               </div>
+              <!-- Scan card -->
               <div style = "display: flex; justify-content: center;">
-              <button type="submit" class="btn btn-success mb-1" style="font-size: 24px; padding: 10px 20px;" value="Register">Register</button>
+              <button type="submit" class="btn btn-success mb-1" style="font-size: 20px;" value="Register">Scan card</button>
+              </div>
+              <!-- input passwordkey -->
+              <div class="form-outline mb-4">
+                <label class="form-label" for="form3Example1q">Or key password</label>
+                <!-- <input type="password" class="form-control" id="password" name="password" placeholder="Password"> -->
+              </div>
+              <div style = "display: flex; justify-content: center;">
+              <button type="submit" class="btn btn-success mb-1" style="font-size: 20px;" value="Register">Register</button>
               </div>
               <div>
-                <p class="link" style ="display: flex; justify-content: center;"><a href="login.php">Click to Login</a></p>
               </div>
             </form>
           </div>

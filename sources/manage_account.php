@@ -28,7 +28,8 @@ if (isset($_GET['remove_user'])) {
             <link rel="stylesheet" href="css/minireset.css">
         </div>
         <div class="right">
-            <h4 class="text-left" style="margin-left: 10; margin-top: 30" >Manager Account</h4>
+            <h3 class="text-left" style="margin-left: 10; margin-top: 30" >Manager Account</h3>
+            <button  class="right-button" onclick="window.location.href='register.php';" style=" margin-right: 100; margin-bottom: 15;background-color: #04AA6D;border: none;color: white ;padding: 15px 32px;text-decoration: none;display: flex;font-size: 16px; float: right">Add user</button>
             <table class="table table-bordered">
                 <thead>
                     <tr>

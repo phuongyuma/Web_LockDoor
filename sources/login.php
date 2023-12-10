@@ -51,9 +51,9 @@ include "include/connect.php";
   }
   ?>
   <section class="h-100 h-custom" style="background-color: #8fc4b7;">
-    <div class="container py-5 h-100">
+    <div class="container py-6 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-lg-8 col-xl-6">
+        <div class="col-lg-6 col-xl-6">
           <div class="card rounded-3">
             <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img3.webp" class="w-100"
               style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;" alt="Sample photo">
@@ -77,7 +77,7 @@ include "include/connect.php";
                   <button type="submit" class="btn btn-success btn-lg mb-1 from-control" value="Login"
                     name="submit">Login</button>
                 </div>
-                <p class="link"><a href="register.php">New Registration</a></p>
+                <!-- <p class="link"><a href="register.php">New Registration</a></p> -->
               </form>
             </div>
           </div>
@@ -86,5 +86,3 @@ include "include/connect.php";
     </div>
   </section>
 </body>
-
-</html>
