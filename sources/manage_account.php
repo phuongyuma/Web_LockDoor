@@ -36,8 +36,8 @@ if (isset($_GET['remove_user'])) {
                         <th>User ID</th>
                         <th>User Name</th>
                         <th>Password</th>
-                        <th>Wallet</th>
-                        <th>Role</th>
+                        <th>Id_card</th>
+                        <th>Password key</th>
                         <th>Action</th>
                     </tr>
                 </thead>
