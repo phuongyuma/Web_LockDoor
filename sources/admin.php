@@ -127,8 +127,13 @@ if ($result->num_rows > 0) {
             <i class="fas fa-sign-out-alt"></i>
             <span class="nav-item">Log out</span>
           </a></li>
-      </ul>
+      </ul> 
     </nav>
+    <!-- button send mail -->
+    <form action="sentmail.php" method="post">
+    <input type="submit" name="submit" value="Gửi Email">
+</form>
+
     <section class="main">
       <div class="main-top">
         <h1 >Dashboard</h1>
@@ -263,6 +268,8 @@ if ($result->num_rows > 0) {
       </section>
     </section>
   </div>
+
+  
 </body>
 
 </html>
