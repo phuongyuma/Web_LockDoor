@@ -16,7 +16,7 @@ $query_logs_2 = "SELECT COUNT(*) AS total_alerts FROM door_logs WHERE activity_t
 $result = mysqli_query($conn, $query_logs_2);
 if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
-    $total_alerts = $row["total_alerts"]; 
+    $total_alerts = $row["total_alerts"];
   }
 } else {
   $total_alerts = 0;
@@ -26,7 +26,7 @@ $query_logs_3 = "SELECT COUNT(*) AS total_alerts FROM door_logs WHERE activity_t
 $result = mysqli_query($conn, $query_logs_3);
 if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
-    $total_alerts_2 = $row["total_alerts"]; 
+    $total_alerts_2 = $row["total_alerts"];
   }
 } else {
   $total_alerts_2 = 0;
@@ -36,7 +36,7 @@ $query_logs_4 = "SELECT COUNT(*) AS total_alerts FROM door_logs WHERE activity_t
 $result = mysqli_query($conn, $query_logs_4);
 if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
-    $total_open = $row["total_alerts"]; 
+    $total_open = $row["total_alerts"];
   }
 } else {
   $total_open = 0;
@@ -46,24 +46,33 @@ $query_logs_5 = "SELECT COUNT(*) AS total_alerts FROM door_logs WHERE activity_t
 $result = mysqli_query($conn, $query_logs_5);
 if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
-    $total_close = $row["total_alerts"]; 
+    $total_close = $row["total_alerts"];
   }
 } else {
   $total_close = 0;
 }
-# total user 
+# total user
 $query_logs_6 = "SELECT COUNT(*) AS total_users FROM users";
 $result = mysqli_query($conn, $query_logs_6);
 if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
-    $total_user = $row["total_users"]; 
+    $total_user = $row["total_users"];
   }
 } else {
   $total_user = 0;
 }
 
 
-
+# count total alerts in 1 week
+$query_activity_type = "SELECT activity_type FROM door_logs WHERE log_id = (SELECT MAX(log_id) FROM door_logs)";
+$result = $conn->query($query_activity_type);
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $activity_type = $row['activity_type'];
+    // echo "Giá trị activity_type là: " . $activity_type;
+} else {
+  $activity_type = "Close";
+}
 ?>
 
 <head>
@@ -78,17 +87,14 @@ if ($result->num_rows > 0) {
         ['Close', <?php echo $total_close; ?>],
         ['Open', <?php echo $total_open; ?>]
         ]);
-
       var options = {
         title: 'Alert per Week',
         is3D: true,
       };
-
       var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
       chart.draw(data, options);
     }
   </script>
-  
 </head>
 
 <body>
@@ -104,10 +110,6 @@ if ($result->num_rows > 0) {
             <i class="fas fa-menorah"></i>
             <span class="nav-item">Dashboard</span>
           </a></li>
-        <!-- <li><a href="profile.php">
-            <i class="fas fa-comment"></i>
-            <span class="nav-item">Account</span>
-          </a></li> -->
         <li><a href="logs.php">
             <i class="fas fa-database"></i>
             <span class="nav-item">log</span>
@@ -167,7 +169,7 @@ if ($result->num_rows > 0) {
           <div class="per">
             <table>
               <?php
-              $img_id = $status == "active" ? 1 : 2;
+              $img_id = $activity_type == "Open" ? 1 : 2;
               ?>
               <tr>
                 <img src="./pic/<?php echo $img_id; ?>.png" alt="">
@@ -178,7 +180,7 @@ if ($result->num_rows > 0) {
                 </h4>
               </tr>
               <tr>
-                <h2 style="color: red">status</h2>
+                <h2 style="color: red">  <?php echo $activity_type; ?> </h2>
               </tr>
             </table>
           </div>
@@ -191,44 +193,66 @@ if ($result->num_rows > 0) {
           </div>
         </div>
       </div>
-      
+
       <section class="attendance">
         <div class="attendance-list">
-          <h1>Attendance List</h1>
+          <h1>Logs</h1>
           <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Log ID</th>
+                        <th>Log ID</th> 
                         <th>Activity Type</th>
                         <th>Activity Time</th>
-                        <!-- <th>User ID</th>
-                        <th>Username</th> -->
                         <th>Card id</th>
                     </tr>
                 </thead>
-                <tbody>    
-                          
-
+                <tbody>
+                <form method="POST" action="" style="max-width: 30px;
+                  margin: 0 auto;
+                  padding: 20px;
+                  border: 1px solid #ccc;
+                  border-radius: 5px;">
+                    <label for="date" style="margin-left: 40;">Select Date:</label> <br>
+                    <input type="date" id="date" name="date"  style="margin-left: 40;" >
+                    <input type="submit" value="View Logs" name="pick-date" >
+                </form>
+                <br>
                     <?php
-                    $today = date("Y-m-d");
-                    $query_logs = "SELECT * FROM door_logs WHERE DATE(activity_time) = '$today'";
-                    $result = mysqli_query($conn, $query_logs);
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
+                    if (isset($_POST["pick-date"])) {
+                        $date = $_POST["date"];
+                        $query_logs = "SELECT * FROM door_logs WHERE DATE(activity_time) = '$date'";
+                        $result = mysqli_query($conn, $query_logs);
+                        if ($result->num_rows > 0) {
+                          while ($row = $result->fetch_assoc()) {
                             echo "<td>" . $row["log_id"] . "</td>";
                             echo "<td>" . $row["activity_type"] . "</td>";
                             echo "<td>" . $row["activity_time"] . "</td>";
                             echo "<td>" . $row["id_card"] . "</td>";
                             echo "</tr>";
+                          }
+                        } else {
+                          echo "<tr><td colspan='5'>No activity logs found.</td></tr>";
                         }
-                    } else {
-                        echo "<tr><td colspan='5'>No activity logs found.</td></tr>";
-                    }
-
-                    $conn->close();
+                      }
                     ?>
                 </tbody>
             </table>
+            <script>
+            document.getElementById("date-form").addEventListener("pick-date", function(event) {
+            event.preventDefault();
+            var date = document.getElementById("date").value;
+            var logTable = document.getElementById("log-table");
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    logTable.innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send("date=" + date);
+        });
+    </script>
         </div>
       </section>
     </section>
