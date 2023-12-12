@@ -7,7 +7,8 @@ if (!isset($admin_ses)) {
   header('location:login.php');
 }
 
-;
+if(isset($_POST["activity_type"]) && test_input($_POST["activity_type"])=='wrong')
+{echo "<script>window.location.href='sentmail.php'</script>";};
 $status = 1;
 
 # count total alerts in 1 week
@@ -16,21 +17,19 @@ $query_logs_2 = "SELECT COUNT(*) AS total_alerts FROM door_logs WHERE activity_t
 $result = mysqli_query($conn, $query_logs_2);
 if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
-    $total_alerts = $row["total_alerts"];
+    $total_alerts_1 = $row["total_alerts"];
   }
 } else {
-  $total_alerts = 0;
+  $total_alerts_1 = 0;
 }
 # count total alerts in 1 days
-$query_logs_3 = "SELECT COUNT(*) AS total_alerts FROM door_logs WHERE activity_type = 'Alerts' AND activity_time >= NOW() - INTERVAL 1 DAY";
-$result = mysqli_query($conn, $query_logs_3);
-if ($result->num_rows > 0) {
-  while ($row = $result->fetch_assoc()) {
-    $total_alerts_2 = $row["total_alerts"];
-  }
-} else {
-  $total_alerts_2 = 0;
+$query_totalarlert = "SELECT totalAlerts FROM door_logs WHERE log_id = (SELECT MAX(log_id) FROM door_logs)";
+$result_totalarlert = $conn->query($query_totalarlert);
+if ($result_totalarlert->num_rows > 0) {
+    $row = $result_totalarlert->fetch_assoc();
+    $totalAlerts = $row['totalAlerts'];
 }
+
 # count total open in 1 week
 $query_logs_4 = "SELECT COUNT(*) AS total_alerts FROM door_logs WHERE activity_type = 'Open' AND activity_time >= NOW() - INTERVAL 1 WEEK";
 $result = mysqli_query($conn, $query_logs_4);
@@ -62,7 +61,6 @@ if ($result->num_rows > 0) {
   $total_user = 0;
 }
 
-
 # count total alerts in 1 week
 $query_activity_type = "SELECT activity_type FROM door_logs WHERE log_id = (SELECT MAX(log_id) FROM door_logs)";
 $result = $conn->query($query_activity_type);
@@ -73,6 +71,9 @@ if ($result->num_rows > 0) {
 } else {
   $activity_type = "Close";
 }
+
+// elerts
+
 ?>
 
 <head>
@@ -83,7 +84,7 @@ if ($result->num_rows > 0) {
     function drawChart() {
       var data = google.visualization.arrayToDataTable([
         ['Task', 'Alert per Week'],
-        ['Alert', <?php echo $total_alerts; ?>],
+        ['Alert', 2],
         ['Close', <?php echo $total_close; ?>],
         ['Open', <?php echo $total_open; ?>]
         ]);
@@ -134,6 +135,9 @@ if ($result->num_rows > 0) {
         <h4 >Welcome back to admin</h4>
         <i class="fas fa-user-cog"></i>
       </div>
+      <form action="sentmail.php" method="post">
+    <input type="submit" name="submit" value="Gửi Email">
+</form>
       <div class="users">
         <div class="card" style="display: flex;justify-content: center; align-items: center;">
           <div class="per">
@@ -158,7 +162,7 @@ if ($result->num_rows > 0) {
                 </h4>
               </tr>
               <h2 style="color: red">
-                <?php echo $total_alerts_2; ?>
+               3
               </h2>
               <tr>
               </tr>
@@ -200,10 +204,11 @@ if ($result->num_rows > 0) {
           <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Log ID</th> 
+                        <th>Log ID</th>
                         <th>Activity Type</th>
                         <th>Activity Time</th>
                         <th>Card id</th>
+                        <th>Passwork Key</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -227,6 +232,7 @@ if ($result->num_rows > 0) {
                             echo "<td>" . $row["log_id"] . "</td>";
                             echo "<td>" . $row["activity_type"] . "</td>";
                             echo "<td>" . $row["activity_time"] . "</td>";
+                            echo "<td>" . $row["password_key"] . "</td>";
                             echo "<td>" . $row["id_card"] . "</td>";
                             echo "</tr>";
                           }

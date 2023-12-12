@@ -22,12 +22,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             die("Connection failed: " . $conn->connect_error);
         }
         //check password if password_key or ID_card is correct with one of them in database
-        $sql = "SELECT * FROM users WHERE password_key = '$ID_card'";
+        $sql = "SELECT * FROM users WHERE password_key = '$password_key' OR Id_card = '$ID_card'";
+        // $sql2 = "SELECT * FROM users WHERE Id_card = '$password_key'";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {
-                $sql = "INSERT INTO door_logs (activity_type, id_card)
-                VALUES ('Open', '".$ID_card."')";
+            while( ($row = $result->fetch_assoc()) ) {
+                $sql = "INSERT INTO door_logs (activity_type, id_card, password_key)
+                VALUES ('Open', '".$ID_card."','".$password_key."')";
                 if ($conn->query($sql) ) {
                     echo "1";
                 }
@@ -36,16 +37,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
             }
         } else {
-            echo "0";
-            $sql = "INSERT INTO door_logs (activity_type, id_card)
-            VALUES ('wrong', '".$ID_card."')";
-            if ($conn->query($sql) === TRUE) {
-                // echo "\nNOT New record created successfully";
-                // echo "\n................................";
-            }
-            else {
-                echo "Error: " . $sql . "<br>" . $conn->error;
-            }
+            $sql = "INSERT INTO door_logs (activity_type, id_card, password_key)
+                VALUES ('wrong', '".$ID_card."','".$password_key."')";
+                if ($conn->query($sql) ) {
+                    echo "0";
+                }
+            // if (!isset($n)) {
+            //     $n=0;
+            // }
+            // if($n == 3){
+            //     $totalAlerts++;
+            //     $sql = "INSERT INTO door_logs (activity_type, id_card, password_key, totalAlerts)
+            //     VALUES ('wrong', '".$ID_card."','".$password_key."', '".$totalAlerts."')";
+            //     if ($conn->query($sql) ) {};
+            //         $n = 0;
+            // }
+            // else {
+            //     $sql = "INSERT INTO door_logs (activity_type, id_card, password_key, totalAlerts)
+            //     VALUES ('wrong', '".$ID_card."','".$password_key."', '".$totalAlerts."')";
+            //     if ($conn->query($sql) ) {};
+            //     $n ++;
+            // }
+            // echo "<script>window.location.href='sentmail.php'</script>";
         }
     }
     else {

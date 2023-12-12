@@ -9,7 +9,7 @@
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+00:00";
+SET time_zone = "+07:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -96,7 +96,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id_user`, `username`, `password`, `avatar`, `name`, `email`, `phone_number`, `role`, `Id_card`, `password_key`) VALUES
 (2, 'naruto2', '827ccb0eea8a706c4c34a16891f84e7b', 'default.png', '', '', '', 'user', NULL, NULL),
-(4, 'admin', '0192023a7bbd73250516f069df18b500', 'default.png', '', '', '', 'admin', NULL, NULL),
+(4, 'admin', '0192023a7bbd73250516f069df18b500', 'default.png', '', '', '', 'admin', '11 50 93 89', '2209'),
 (5, 'test', 'cc03e747a6afbbcbf8be7668acfebee5', 'default.png', '', '', '', 'user', NULL, NULL),
 (7, 'naruto', '827ccb0eea8a706c4c34a16891f84e7b', 'default.png', 'naruto2', 'naruto@naruto', '12345678', 'VIP', NULL, NULL),
 (8, 'naruto3', '884ecc7ac05cb5d52aa970f523a3b7e6', 'default.png', '', 'hokage@hokage2', '12345678', 'user', NULL, NULL),
@@ -164,24 +164,13 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
--- CREATE TABLE `door_activity_log` (
---     `log_id` int(11) AUTO_INCREMENT PRIMARY KEY,
---     `activity_type` ENUM('Open', 'Close', 'WrongPassword_1', 'WrongPassword_2', 'WrongPassword_3', 'WrongPassword_4'),
---     `activity_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---     `user_id` int(11) NOT NULL,
---     `username` varchar(50) NOT NULL,
---     `keypassword` int(20) NOT NULL,
---     `id_card` varchar(50) NOT NULL,
---     FOREIGN KEY (user_id) REFERENCES users(id_user)
--- );
--- INSERT INTO `door_activity_log` (`activity_type`, `activity_time`, `user_id`, `username`,`keypassword`,`id_card` ) VALUES
--- ('Open', CURRENT_TIMESTAMP, 2, 'admin',3, 'FF FF FF FF');
-
 CREATE TABLE `door_logs` (
     `log_id` int(11) AUTO_INCREMENT PRIMARY KEY,
     `activity_type`varchar(20) NOT NULL,
     `activity_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `id_card` varchar(50) NOT NULL
+    `id_card` varchar(50) NOT NULL,
+    `password_key` varchar(50) NOT NULL,
+    `totalAlerts` int(20) NOT NULL
 );
-INSERT INTO `door_logs` (`activity_type`, `activity_time`,`id_card` ) VALUES
-('Open',CURRENT_TIMESTAMP,'FF FF FF FF');
+INSERT INTO `door_logs` (`activity_type`, `activity_time`,`id_card`, `password_key`,`totalAlerts`) VALUES
+('Open',CURRENT_TIMESTAMP,'FF FF FF FF','2201','0');
