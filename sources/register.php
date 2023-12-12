@@ -27,6 +27,8 @@ function test_input($conn, $data)
     $name = test_input($conn, $_POST['name']);
     $email = test_input($conn, $_POST['email']);
     $contact = test_input($conn, $_POST['contact']);
+    $id_card = test_input($conn, $_POST['id_card']);
+    $password_key = test_input($conn, $_POST['key_password']);
 
     // //regex lấy từ mạng, chưa tìm hiểu kỹ
     // if (!preg_match("/^\\+?[1-9][0-9]{7,14}$/", $contact)) {
@@ -38,16 +40,23 @@ function test_input($conn, $data)
     //   exit();
     // }
 
-    $query = "INSERT into `users` (username, password, name, email, phone_number, role)
-              VALUES ('$username', '" . md5($password) . "', '$name', '$email', '$contact', 'us er')";
+    $query = "INSERT into `users` (username, password, name, email, phone_number, role, Id_card, password_key)
+              VALUES ('$username', '" . md5($password) . "', '$name', '$email', '$contact', 'user', $id_card, $password_key)";
     $result = mysqli_query($conn, $query);
+
     if ($result) {
       // echo "<div class='form'>
       //     <h3>You are registered successfully.</h3><br/>
       //     <p class='link'>Click here to <a href='login.php'>Login</a></p>
       //     </div>";
-      echo "Tính năng này đang tạm ngừng";
+      // echo "Tính năng này đang tạm ngừng";
+      echo "<div class='form'>
+          <h3>You are add user successfully.</h3><br/>
+          <p class='link'>Click here to come back <a href='manage_account.php'>page Manage User</a></p>
+          </div>";
     } else {
+      //show the error of result
+      echo "Error: " . $query . "<br>" . $conn->error;
       echo "<div class='form'>
                         <h3>Required fields are missing.</h3><br/>
                         <p class='link'>Click here to <a href='registration.php'>registration</a> again.</p>
@@ -64,7 +73,7 @@ function test_input($conn, $data)
           <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img3.webp" class="w-100"
             style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;" alt="Sample photo">
           <div class="card-body p-2 p-md-3">
-            <h3 class="pb-2 pb-md-0 pt-2 mb-md-1 px-md-2" style="height: 20px; display: flex; justify-content: center;">Registration Info</h3>
+            <h3 class="pb-2 pb-md-0 pt-2 mb-md-1 px-md-2" style="height: 20px; display: flex; justify-content: center;">Add User</h3>
             <form class="px-md-2" method="POST" action="" enctype="multipart/form-data">
               <div class="form-outline mb-4">
                 <label class="form-label" for="form3Example1q">User Name</label>
@@ -76,6 +85,11 @@ function test_input($conn, $data)
                 <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
               </div>
               <div class="form-outline mb-4">
+                <label class="form-label" for="form3Example1q">Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Name"
+                  required>
+              </div>
+              <div class="form-outline mb-4">
                 <label class="form-label" for="form3Example1q">Password</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Password"
                   required>
@@ -84,17 +98,16 @@ function test_input($conn, $data)
                 <label class="form-label" for="form3Example1q">Contact Info</label>
                 <input type="text" class="form-control" id="contact" name="contact" placeholder = "Phone number" required>
               </div>
-              <!-- Scan card -->
-              <div style = "display: flex; justify-content: center;">
-              <button type="submit" class="btn btn-success mb-1" style="font-size: 20px;" value="Register">Scan card</button>
-              </div>
-              <!-- input passwordkey -->
               <div class="form-outline mb-4">
-                <label class="form-label" for="form3Example1q">Or key password</label>
-                <!-- <input type="password" class="form-control" id="password" name="password" placeholder="Password"> -->
+                <label class="form-label" for="form3Example1q">ID Card</label>
+                <input type="text" class="form-control" id="id_card" name="id_card" placeholder = "ID Card" required>
+              </div>
+              <div class="form-outline mb-4">
+                <label class="form-label" for="form3Example1q">Key Password</label>
+                <input type="text" class="form-control" id="key_password" name="key_password" placeholder = "Key Password">
               </div>
               <div style = "display: flex; justify-content: center;">
-              <button type="submit" class="btn btn-success mb-1" style="font-size: 20px;" value="Register">Register</button>
+              <button type="submit" class="btn btn-success mb-1" style="font-size: 20px;" value="Register">Add User</button>
               </div>
               <div>
               </div>
