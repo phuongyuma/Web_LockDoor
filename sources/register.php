@@ -6,7 +6,7 @@ include "include/connect.php";
 
 function test_input($conn, $data)
 {
-  $data = trim($data); //loại bỏ ký tự không cần thiết như khoảng trắng, tab, xuống dòng
+  //$data = trim($data); //loại bỏ ký tự không cần thiết như khoảng trắng, tab, xuống dòng
   $data = stripslashes($data); //bỏ dấu gạch chéo "\" ra khỏi chuỗi
   $data = htmlspecialchars($data); //chuyển các ký tự đặc biệt thành các ký tự HTML entity  (vd: < thành &lt;)
   // https://www.w3schools.com/html/html_entities.asp
@@ -27,7 +27,7 @@ function test_input($conn, $data)
     $name = test_input($conn, $_POST['name']);
     $email = test_input($conn, $_POST['email']);
     $contact = test_input($conn, $_POST['contact']);
-    $id_card = test_input($conn, $_POST['id_card']);
+    $id_card = test_input($conn, $_POST['Id_card']);
     $password_key = test_input($conn, $_POST['key_password']);
 
     // //regex lấy từ mạng, chưa tìm hiểu kỹ
@@ -39,9 +39,11 @@ function test_input($conn, $data)
     //   echo "Email is invalid";
     //   exit();
     // }
+    // $id_card to var char
+    
 
     $query = "INSERT into `users` (username, password, name, email, phone_number, role, Id_card, password_key)
-              VALUES ('$username', '" . md5($password) . "', '$name', '$email', '$contact', 'user', $id_card, $password_key)";
+              VALUES ('$username', '" . md5($password) . "', '$name', '$email', '$contact', 'user', '$id_card', $password_key)";
     $result = mysqli_query($conn, $query);
 
     if ($result) {
@@ -66,9 +68,9 @@ function test_input($conn, $data)
   }
   ?>
  <section class="h-150vh h-custom" style="background-color: #8fc4b7;">
-  <div class="container py-5 h-100">
+  <div class="container  py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center">
-      <div class="col-lg-8 col-xl-6">
+      <div class="col-lg-3 col-xl-6">
         <div class="card rounded-3">
           <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img3.webp" class="w-100"
             style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;" alt="Sample photo">
@@ -100,7 +102,7 @@ function test_input($conn, $data)
               </div>
               <div class="form-outline mb-4">
                 <label class="form-label" for="form3Example1q">ID Card</label>
-                <input type="text" class="form-control" id="id_card" name="id_card" placeholder = "ID Card" required>
+                <input type="text" class="form-control" id="Id_card" name="Id_card" placeholder = "ID Card" required>
               </div>
               <div class="form-outline mb-4">
                 <label class="form-label" for="form3Example1q">Key Password</label>

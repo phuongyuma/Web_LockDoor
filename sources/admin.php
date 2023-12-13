@@ -1,12 +1,12 @@
 <?php
 session_start();
+
 include "include/connect.php";
 //check admin:admin123
-$admin_ses = $_SESSION['sadmin'];
-if (!isset($admin_ses)) {
-  header('location:login.php');
-}
-
+// $admin_ses = $_SESSION['sadmin'];
+// if (!isset($admin_ses)) {
+//   header('location:login.php');
+// }
 if(isset($_POST["activity_type"]) && test_input($_POST["activity_type"])=='wrong')
 {echo "<script>window.location.href='sentmail.php'</script>";};
 $status = 1;
@@ -72,8 +72,6 @@ if ($result->num_rows > 0) {
   $activity_type = "Close";
 }
 
-// elerts
-
 ?>
 
 <head>
@@ -127,22 +125,14 @@ if ($result->num_rows > 0) {
             <i class="fas fa-sign-out-alt"></i>
             <span class="nav-item">Log out</span>
           </a></li>
-      </ul> 
+      </ul>
     </nav>
-    <!-- button send mail -->
-    <form action="sentmail.php" method="post">
-    <input type="submit" name="submit" value="Gửi Email">
-</form>
-
     <section class="main">
       <div class="main-top">
         <h1 >Dashboard</h1>
         <h4 >Welcome back to admin</h4>
         <i class="fas fa-user-cog"></i>
       </div>
-      <form action="sentmail.php" method="post">
-    <input type="submit" name="submit" value="Gửi Email">
-</form>
       <div class="users">
         <div class="card" style="display: flex;justify-content: center; align-items: center;">
           <div class="per">
@@ -167,7 +157,7 @@ if ($result->num_rows > 0) {
                 </h4>
               </tr>
               <h2 style="color: red">
-               3
+              3
               </h2>
               <tr>
               </tr>
@@ -268,8 +258,6 @@ if ($result->num_rows > 0) {
       </section>
     </section>
   </div>
-
-  
 </body>
 
 </html>
