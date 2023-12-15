@@ -3,10 +3,10 @@ session_start();
 
 include "include/connect.php";
 //check admin:admin123
-// $admin_ses = $_SESSION['sadmin'];
-// if (!isset($admin_ses)) {
-//   header('location:login.php');
-// }
+  $admin_ses = $_SESSION['sadmin'];
+  if (!isset($admin_ses)) {
+    header('location:login.php');
+}
 if(isset($_POST["activity_type"]) && test_input($_POST["activity_type"])=='wrong')
 {echo "<script>window.location.href='sentmail.php'</script>";};
 $status = 1;
