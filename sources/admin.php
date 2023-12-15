@@ -157,7 +157,7 @@ if ($result->num_rows > 0) {
                 </h4>
               </tr>
               <h2 style="color: red">
-              3
+              <?php echo $totalAlerts;  ?>
               </h2>
               <tr>
               </tr>

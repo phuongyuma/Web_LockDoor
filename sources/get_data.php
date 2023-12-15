@@ -3,10 +3,23 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "fruit_shop";
+//$GLOBALS['n'] = 1;
+#static $n = 1;
+$filename = "counter.txt";
+
+// Kiểm tra xem tập tin có tồn tại không
+if (file_exists($filename)) {
+    $n = (int)file_get_contents($filename); // Đọc và chuyển đổi sang số nguyên
+} else {
+    $n = 1; // Nếu tập tin không tồn tại, bắt đầu từ 1
+}
 
 /*$conn = mysqli_connect($dbServername, $dbUsername, $dbPassword, $dbName);*/
 $api_key_value = "tPmAT5Ab3j7F9";
 $api_key= $card = $activity_type = "";
+
+// if quẹt thẻ và nhận gói tin và thẻ lạ hoặc password lạ
+
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -40,28 +53,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // get totalAlert from database
             $get_totalAlerts = "SELECT totalAlerts FROM door_logs WHERE log_id = (SELECT MAX(log_id) FROM door_logs)";
             $result_totalAlerts = $conn->query($get_totalAlerts);
-            $sql = "INSERT INTO door_logs (activity_type, id_card, password_key)
-                VALUES ('wrong', '".$ID_card."','".$password_key."')";
-                if ($conn->query($sql) ) {
-                    echo "0";
+            if ($result_totalAlerts->num_rows > 0) {
+                $row = $result_totalAlerts->fetch_assoc();
+                $totalAlerts = $row['totalAlerts'];
+                if ($n == 3){
+                    echo "n bang 3 ne";
+                    $n=0;
+                    $newTotalAlerts = $totalAlerts + 1;
+                    $insertNewLog = "INSERT INTO door_logs (activity_type, id_card, password_key, totalAlerts) VALUES ('wrong', '".$ID_card."', '".$password_key."', '$newTotalAlerts')";
+                    $insertResult = mysqli_query($conn, $insertNewLog);
+
+                    if ($insertResult) {
+                        echo "New log inserted successfully!";
+                    } else {
+                        echo "Error inserting new log: " . mysqli_error($conn);
+                    }
                 }
-            if (!isset($n)) {
-                $n=0;
+                else {
+                    echo "n chua bang 3";
+                    $n++;
+                    // insert new logs with total alerts not change
+                    $insertNewLog = "INSERT INTO door_logs (activity_type, id_card, password_key, totalAlerts) VALUES ('wrong', '".$ID_card."', '".$password_key."', '$totalAlerts')";
+                    $insertResult = mysqli_query($conn, $insertNewLog);
+
+                    if ($insertResult) {
+                        echo "New log inserted successfully!";
+                    } else {
+                        echo "Error inserting new log: " . mysqli_error($conn);
+                    }
+                }
+
+                
             }
-            if($n == 3){
-                $totalAlerts++;
-                $sql = "INSERT INTO door_logs (activity_type, id_card, password_key, totalAlerts)
-                VALUES ('wrong', '".$ID_card."','".$password_key."', '".$totalAlerts."')";
-                if ($conn->query($sql) ) {};
-                    $n = 0;
-            }
-            else {
-                $sql = "INSERT INTO door_logs (activity_type, id_card, password_key)
-                VALUES ('wrong', '".$ID_card."','".$password_key."')";
-                if ($conn->query($sql) ) {};
-                $n ++;
-            }
-            echo "<script>window.location.href='sentmail.php'</script>";
+
+            echo $n;
         }
     }
     else {
@@ -71,6 +96,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 else {
     echo "No data posted with HTTP POST.";
 }
+
+file_put_contents($filename, $n);
+
 
 function test_input($data) {
     $data = trim($data);
