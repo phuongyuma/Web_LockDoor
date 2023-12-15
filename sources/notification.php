@@ -25,7 +25,7 @@ if (!isset($admin_ses)) {
                 <!-- Hiển thị thông báo mới nhất -->
                 <div class="list-group">
                     <?php
-                    $query_logs = "SELECT * FROM door_logs ORDER BY activity_time DESC LIMIT 20";
+                    $query_logs = "SELECT * FROM door_logs WHERE activity_type='wrong' ORDER BY activity_time DESC LIMIT 20";
                     $result = mysqli_query($conn, $query_logs);
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
