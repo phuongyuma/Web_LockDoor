@@ -37,28 +37,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
             }
         } else {
+            // get totalAlert from database
+            $get_totalAlerts = "SELECT totalAlerts FROM door_logs WHERE log_id = (SELECT MAX(log_id) FROM door_logs)";
+            $result_totalAlerts = $conn->query($get_totalAlerts);
             $sql = "INSERT INTO door_logs (activity_type, id_card, password_key)
                 VALUES ('wrong', '".$ID_card."','".$password_key."')";
                 if ($conn->query($sql) ) {
                     echo "0";
                 }
-            // if (!isset($n)) {
-            //     $n=0;
-            // }
-            // if($n == 3){
-            //     $totalAlerts++;
-            //     $sql = "INSERT INTO door_logs (activity_type, id_card, password_key, totalAlerts)
-            //     VALUES ('wrong', '".$ID_card."','".$password_key."', '".$totalAlerts."')";
-            //     if ($conn->query($sql) ) {};
-            //         $n = 0;
-            // }
-            // else {
-            //     $sql = "INSERT INTO door_logs (activity_type, id_card, password_key, totalAlerts)
-            //     VALUES ('wrong', '".$ID_card."','".$password_key."', '".$totalAlerts."')";
-            //     if ($conn->query($sql) ) {};
-            //     $n ++;
-            // }
-            // echo "<script>window.location.href='sentmail.php'</script>";
+            if (!isset($n)) {
+                $n=0;
+            }
+            if($n == 3){
+                $totalAlerts++;
+                $sql = "INSERT INTO door_logs (activity_type, id_card, password_key, totalAlerts)
+                VALUES ('wrong', '".$ID_card."','".$password_key."', '".$totalAlerts."')";
+                if ($conn->query($sql) ) {};
+                    $n = 0;
+            }
+            else {
+                $sql = "INSERT INTO door_logs (activity_type, id_card, password_key)
+                VALUES ('wrong', '".$ID_card."','".$password_key."')";
+                if ($conn->query($sql) ) {};
+                $n ++;
+            }
+            echo "<script>window.location.href='sentmail.php'</script>";
         }
     }
     else {
