@@ -34,14 +34,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
+        $get_totalAlerts = "SELECT totalAlerts FROM door_logs WHERE log_id = (SELECT MAX(log_id) FROM door_logs)";
+            $result_totalAlerts = $conn->query($get_totalAlerts);
+            if ($result_totalAlerts->num_rows > 0) {
+                $row = $result_totalAlerts->fetch_assoc();
+                $totalAlerts = $row['totalAlerts'];
+            }
         //check password if password_key or ID_card is correct with one of them in database
         $sql = "SELECT * FROM users WHERE password_key = '$password_key' OR Id_card = '$ID_card'";
         // $sql2 = "SELECT * FROM users WHERE Id_card = '$password_key'";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
             while( ($row = $result->fetch_assoc()) ) {
-                $sql = "INSERT INTO door_logs (activity_type, id_card, password_key)
-                VALUES ('Open', '".$ID_card."','".$password_key."')";
+                $sql = "INSERT INTO door_logs (activity_type, id_card, password_key, totalAlerts)
+                VALUES ('Open', '".$ID_card."','".$password_key."', '".$totalAlerts."')";
                 if ($conn->query($sql) ) {
                     echo "1";
                 }
@@ -57,27 +63,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $row = $result_totalAlerts->fetch_assoc();
                 $totalAlerts = $row['totalAlerts'];
                 if ($n == 3){
-                    echo "n bang 3 ne";
+                    echo "3";
+                    //echo "n bang 3 ne";
                     $n=0;
                     $newTotalAlerts = $totalAlerts + 1;
                     $insertNewLog = "INSERT INTO door_logs (activity_type, id_card, password_key, totalAlerts) VALUES ('wrong', '".$ID_card."', '".$password_key."', '$newTotalAlerts')";
                     $insertResult = mysqli_query($conn, $insertNewLog);
 
                     if ($insertResult) {
-                        echo "New log inserted successfully!";
+                       // echo "New log inserted successfully!";
                     } else {
                         echo "Error inserting new log: " . mysqli_error($conn);
                     }
+                    include('sentmail.php');
                 }
                 else {
-                    echo "n chua bang 3";
+                   // echo "n chua bang 3";
+                   echo "2";
                     $n++;
                     // insert new logs with total alerts not change
                     $insertNewLog = "INSERT INTO door_logs (activity_type, id_card, password_key, totalAlerts) VALUES ('wrong', '".$ID_card."', '".$password_key."', '$totalAlerts')";
                     $insertResult = mysqli_query($conn, $insertNewLog);
-
+                    
                     if ($insertResult) {
-                        echo "New log inserted successfully!";
+                       // echo "New log inserted successfully!";
                     } else {
                         echo "Error inserting new log: " . mysqli_error($conn);
                     }
@@ -86,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 
             }
 
-            echo $n;
+           // echo $n;
         }
     }
     else {

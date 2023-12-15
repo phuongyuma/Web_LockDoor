@@ -3,6 +3,8 @@ session_start();
 # biến mở kết nối tới MySQL server
 #$conn = mysqli_connect("localhost", "nbp1", "passMySQL", "fruit_shop");
 include "include/connect.php";
+$cardId = isset($_GET['cardId']) ? $_GET['cardId'] : '';
+$passwordKey = isset($_GET['passwordKey']) ? $_GET['passwordKey'] : '';
 
 function test_input($conn, $data)
 {
@@ -47,9 +49,9 @@ function test_input($conn, $data)
     $result = mysqli_query($conn, $query);
 
     if ($result) {
-      echo "<script> 
-      alert('You are add user successfully');
-      window.location.href = 'manage_account.php' </script>";
+        echo "<script> 
+        alert('You are add user successfully');
+        window.location.href = 'manage_account.php' </script>";
     } else {
       //show the error of result
       //echo "Error: " . $query . "<br>" . $conn->error;
@@ -59,7 +61,7 @@ function test_input($conn, $data)
     //                     </div>";
     echo "<script> 
     alert('Required fields are missing');
-    window.location.href = 'add_user.php' </script>";
+    window.location.href = 'register.php' </script>";
     }
   } else {
   }
@@ -99,11 +101,11 @@ function test_input($conn, $data)
               </div>
               <div class="form-outline mb-4">
                 <label class="form-label" for="form3Example1q">ID Card</label>
-                <input type="text" class="form-control" id="Id_card" name="Id_card" placeholder = "ID Card" required>
+                <input type="text" class="form-control" id="Id_card" name="Id_card" placeholder = "ID Card" value="<?php echo htmlspecialchars($cardId); ?>" required >
               </div>
               <div class="form-outline mb-4">
                 <label class="form-label" for="form3Example1q">Key Password</label>
-                <input type="text" class="form-control" id="key_password" name="key_password" placeholder = "Key Password">
+                <input type="text" class="form-control" id="key_password" name="key_password" placeholder = "Key Password" value="<?php echo htmlspecialchars($passwordKey); ?>" required>
               </div>
               <div style = "display: flex; justify-content: center;">
               <button type="submit" class="btn btn-success mb-1" style="font-size: 20px;" value="Register">Add User</button>

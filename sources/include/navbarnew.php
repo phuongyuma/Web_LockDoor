@@ -21,6 +21,10 @@
                     <i class="fas fa-chart-bar"></i>
                     <span class="nav-item">User</span>
                 </a></li>
+                <li><a href="notification.php">
+                    <i class="fas fa-chart-bar"></i>
+                    <span class="nav-item">Notification</span>
+                </a></li>
             <li><a href="#">
                     <i class="fas fa-cog"></i>
                     <span class="nav-item">Setting</span>

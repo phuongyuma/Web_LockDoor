@@ -8,7 +8,7 @@ require 'include/PHPMailer-master/src/SMTP.php';
 
 $mail = new PHPMailer(true);
 try {
-    $mail->SMTPDebug = 2;
+    $mail->SMTPDebug = 0;
     $mail->isSMTP();
     $mail->Host       = 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
@@ -26,7 +26,7 @@ try {
     $mail->AltBody = 'Alert for WebLockDoor';
 
     $mail->send();
-    echo 'Message has been sent';
+    // echo 'Message has been sent';
     // echo "<script>window.location.href='admin.php'</script>";
 } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
